@@ -1,18 +1,58 @@
+(function(){
+  
+    var list = document.querySelector('#list'),
+        form = document.querySelector('form'),
+        item = document.querySelector('#item');
+    
+    //Save value to the list
+     document.getElementById("addBtn").addEventListener('click',function(e){
+      e.preventDefault();
+      list.innerHTML += '<li>' + item.value + '</li>';
+      store();
+      item.value = "";
+    },false)
+
+    //Mark task as done and delete
+    list.addEventListener('click',function(e){
+      var t = e.target;
+      if(t.classList.contains('checked')){
+        t.parentNode.removeChild(t);
+      } else {
+        t.classList.add('checked');     
+      }
+      store();
+    },false)
+    
+    //Store data in local storage
+    function store() {
+      window.localStorage.myitems = list.innerHTML;
+    }
+    
+    //getting data from local storage
+    function getValues() {
+      var storedValues = window.localStorage.myitems;
+      if(!storedValues) {
+        list.innerHTML = '';
+      }
+      else {
+        list.innerHTML = storedValues;
+      }
+    }
+    getValues();
+  }
+    
+  )();
 
 var app = {
     // Application Constructor
     initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+        //DeviceReady 
+       document.addEventListener('deviceready', this.devicereadyListener.bind(this), false);
     },
-
-    // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
-    onDeviceReady: function() {
-        this.receivedEvent('deviceready');
-    },
-
+       devicereadyListener: function(){
+            alert ("The application is loaded.")
+        },
+    
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
@@ -23,6 +63,7 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+        
     }
 };
 
